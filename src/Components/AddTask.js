@@ -4,25 +4,15 @@ import { add } from '../Redux/actions';
 
 const AddTask=()=>{
     const [description, setDescription] = useState('');
-    const [isDone, setIsDone] = useState(false)
-
-    
     const dispatch = useDispatch()
     return (
-        <div>   
-                <form>
-                <div style={{display:'flex',gap:'10px', marginBottom:'7px'}}>
-                <label>description : </label>
-                <input type="text" onChange={(e)=>setDescription(e.target.value)}></input>
-                </div>
-                <div style={{display:'flex',gap:'10px',alignItems:'baseline', marginBottom:'10px'}}>
-                <label  >isDone : </label>
-                <input type="checkbox" onChange={(e)=>setIsDone(e.target.checked)}></input>
+        <div style={{display:'flex', gap:'20px'}}>   
+                <form style={{width:'90%'}} >
+                <div  >
+                <input type="text" placeholder="tape a task" onChange={(e)=>setDescription(e.target.value)} style={{width:'95%',height:'30px'}} ></input>
                 </div>
             </form>
-                <button onClick={()=>dispatch(add({description:description,isDone:isDone,id:Math.random()}))}>add</button>
-                
-                
+                <button onClick={()=>dispatch(add({description:description,id:Math.random(),isEdit:false,isDone:false}))} style={{height:'30px',width:'100px',borderRadius:'10px 10px'}}>add</button>
         </div>
     )
 }

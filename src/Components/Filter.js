@@ -1,20 +1,27 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { filter } from '../Redux/actions';
 
 function Filter() {
-    const [done, setDone] = useState(false)
-    const [notDone, setNotDone] = useState(false)
+    const isDone = useSelector(state => state.isDone)
+    const notDone = useSelector(state => state.notDone)
     const dispatch = useDispatch();
+    const handleisDone=(e)=>{
+        dispatch(filter({filterDone:e,filterNotDone:notDone}))
+    }
+    const handleNotDone=(e)=>{
+        dispatch(filter({filterDone:isDone,filterNotDone:e}))
+    }
     return (
-        <div style={{display:'flex', gap:'20px'}}>
-        <form style={{display:'flex', gap:'10px', alignItems:'baseline'}}>
-        <label>done</label>
-        <input type="checkbox" name="filter" onChange={(e)=>setDone(e.target.checked)} ></input>
-        <label>not done</label>
-        <input type="checkbox" name="filter" onChange={(e)=>setNotDone(e.target.checked)} ></input>
-        </form>
-        <button onClick={()=>dispatch(filter({filterDone:done,filterNotDone:notDone}))} style={{height:'30px'}} >Filter</button>
+        <div className="filter" >
+         <div>
+                    <input type="checkbox" name="filter" onChange={(e)=>handleisDone(e.target.checked)} ></input>
+                    <label> Completed</label>
+                    </div>
+                    <div>
+                    <input type="checkbox" name="filter" onChange={(e)=>handleNotDone(e.target.checked)} ></input>
+                    <label> Not completed</label>
+                    </div>
         </div>
         
     )

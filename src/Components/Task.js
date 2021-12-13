@@ -1,54 +1,46 @@
 import { Modal} from 'react-bootstrap';
 import React, { useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch } from 'react-redux';
 import { edit } from '../Redux/actions';
 
 function Task({el}) {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    
+   
     const dispatch = useDispatch();
-    const [isDone, setIsDone] = useState(false)
     const [description, setDescription] = useState(el.description)
     
-    const handleSave=()=>{
-        dispatch(edit({id:el.id,description:description,isDone:isDone}));
-        setShow(false);
+    const handleConfirm=()=>{
+        dispatch(edit({id:el.id,description:description,isEdit:false}));
+    }
+    const handleEdit=()=>{
+        dispatch(edit({id:el.id,description:el.description,isEdit:true}));
+    }
+    const handleCancel=()=>{
+        dispatch(edit({id:el.id,description:el.description,isEdit:false}));
+    }
+    const handleIsDone=(e)=>{
+        dispatch(edit({id:el.id,description:el.description,isEdit:false,isDone:e}));
     }
 
 
     return (
         <div >
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit task</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <form>
-                <div>
-                <label>description</label>
-                <input type="text" onChange={(e)=>setDescription(e.target.value)} ></input>
-                </div>
-                <div>
-                    <label>isDone</label>
-                    <input type="checkbox" onChange={(e)=>setIsDone(e.target.checked)}  ></input>
-                </div>
-            </form>
-            </Modal.Body>
-        <Modal.Footer>
-          <button onClick={handleClose}>Close </button>
-          <button  onClick={handleSave}> Save Changes </button>
-        </Modal.Footer>
-      </Modal>
-    
+             <div className="task">
+            {el.isEdit?
+            <div>
+            <input defaultValue={el.description} onChange={(e)=>setDescription(e.target.value)} >
+            </input>
+            <button style={{color:'white',backgroundColor:'green'}} onClick={()=>handleConfirm()}><i class="bi bi-check-lg"></i></button>
+            <button style={{color:'white',backgroundColor:'red'}} onClick={()=>handleCancel()} ><i class="bi bi-x"></i></button>
+            </div>
+            :<div> {el.isDone?<span style={{textDecoration:'line-through'}}>{el.description}</span>:el.description}</div>}
 
-             <h1>Description : <span style={{fontWeight:'normal'}}>{el.description}</span></h1>
-             <h1>State : <span style={{fontWeight:'normal'}}>{el.isDone?"Done":"Not Done"}</span></h1>
-             <button variant="primary" onClick={handleShow}>
-        Edit
-      </button>
+             <div style={{display:'flex',gap:'8px',alignItems:'center'}}>{el.isDone?
+             <input type="checkbox"  checked style={{display:'inline-block',zoom:'2'}} onChange={(e)=>handleIsDone(e.target.checked)} ></input>:
+             <input type="checkbox"  style={{display:'inline-block',zoom:'2'}} onChange={(e)=>handleIsDone(e.target.checked)} ></input>}
+             <button onClick={handleEdit}><i class="bi bi-pencil-square"></i></button>
+             <button><i class="bi bi-trash"></i></button>
+             </div>
+             </div>
         </div>
     )
 }

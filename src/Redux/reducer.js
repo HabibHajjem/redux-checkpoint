@@ -15,9 +15,10 @@ const addReducer=(state=initialState,action)=>{
                                 filterNotDone: action.payload.filterNotDone}
         case EDIT:
             return  {...state, task:state.task.map( el => el.id==action.payload.id? {...el, description:action.payload.description,
-                                                                                    isDone:action.payload.isDone }:el)}
+                                                                                    isEdit:action.payload.isEdit,
+                                                                                    isDone:action.payload.isDone}:el)}
         default:
-            return state;
+            return state; 
     }
 }
 
