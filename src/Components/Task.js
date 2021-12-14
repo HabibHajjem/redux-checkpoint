@@ -1,7 +1,6 @@
-import { Modal} from 'react-bootstrap';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { edit } from '../Redux/actions';
+import { edit, remove } from '../Redux/actions';
 
 function Task({el}) {
    
@@ -9,16 +8,19 @@ function Task({el}) {
     const [description, setDescription] = useState(el.description)
     
     const handleConfirm=()=>{
-        dispatch(edit({id:el.id,description:description,isEdit:false}));
+        dispatch(edit({id:el.id,description:description,isEdit:false,isDone:el.isDone}));
     }
     const handleEdit=()=>{
-        dispatch(edit({id:el.id,description:el.description,isEdit:true}));
+        dispatch(edit({id:el.id,description:el.description,isEdit:true,isDone:el.isDone}));
     }
     const handleCancel=()=>{
-        dispatch(edit({id:el.id,description:el.description,isEdit:false}));
+        dispatch(edit({id:el.id,description:el.description,isEdit:false,isDone:el.isDone}));
     }
     const handleIsDone=(e)=>{
         dispatch(edit({id:el.id,description:el.description,isEdit:false,isDone:e}));
+    }
+    const handleRemove=()=>{
+        dispatch(remove(el.id))
     }
 
 
@@ -38,7 +40,7 @@ function Task({el}) {
              <input type="checkbox"  checked style={{display:'inline-block',zoom:'2'}} onChange={(e)=>handleIsDone(e.target.checked)} ></input>:
              <input type="checkbox"  style={{display:'inline-block',zoom:'2'}} onChange={(e)=>handleIsDone(e.target.checked)} ></input>}
              <button onClick={handleEdit}><i class="bi bi-pencil-square"></i></button>
-             <button><i class="bi bi-trash"></i></button>
+             <button><i class="bi bi-trash" onClick={handleRemove}></i></button>
              </div>
              </div>
         </div>

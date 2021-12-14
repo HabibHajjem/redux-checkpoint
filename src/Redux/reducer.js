@@ -1,4 +1,4 @@
-import { ADD, EDIT, FILTER } from "./types";
+import { ADD, EDIT, FILTER, REMOVE } from "./types";
 
 const initialState={
     task:[],
@@ -17,6 +17,8 @@ const addReducer=(state=initialState,action)=>{
             return  {...state, task:state.task.map( el => el.id==action.payload.id? {...el, description:action.payload.description,
                                                                                     isEdit:action.payload.isEdit,
                                                                                     isDone:action.payload.isDone}:el)}
+        case REMOVE:
+            return{...state, task: state.task.filter( el => el.id!=action.payload )}
         default:
             return state; 
     }

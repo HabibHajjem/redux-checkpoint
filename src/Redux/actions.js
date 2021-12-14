@@ -1,4 +1,4 @@
-import { ADD, EDIT, FILTER } from "./types"
+import { ADD, EDIT, FILTER, REMOVE } from "./types"
 
 export const add=(newTask)=>{
     return{
@@ -17,6 +17,13 @@ export const filter=(bool)=>{
 export const edit=(x)=>{
     return{
         type:EDIT,
+        payload:x
+    }
+}
+
+export const remove=(x)=>{
+    return{
+        type:REMOVE,
         payload:x
     }
 }
